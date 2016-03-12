@@ -1,0 +1,17 @@
+
+body {
+	/*background: url('http://p4.qhimg.com/t01911e7e6f5fcf4123.jpg') no-repeat center center fixed;*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+	/*color:#fff;*/
+  	
+  	font-family: 'microsoft yahei' ,Arial,sans-serif;
+    padding-bottom: 70px; 
+}
+
+header {
+	height:250px;
+	padding-top: 30px;
+}

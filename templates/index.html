@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Lynceus搜索--获取微视频的下载地址</title>
+    <meta name="keywords" content="秒拍,美拍,微拍,唱吧,视频下载" />
+     <!-- Loading Bootstrap -->
+    <link href="/static/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Loading Flat UI -->
+    <link href="/static/css/flat-ui.min.css" rel="stylesheet">
+    <link href="/static/css/index.css" rel="stylesheet">
+     <!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+   <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+     <header class = "masthead">
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <div style="text-align:center"><h3>Lynceus</h3></div>
+           <div class="row">
+            <div class="col-xs-11">
+              <input type="text" class="form-control input-hg" placeholder="视频链接http://www.meipai.com/media/xxxxxx" id="searchTxt">
+            </div>
+            <div class="col-xs-1">
+              <button class="btn btn-hg btn-primary" id='searchBtn'>解  析</button>
+            </div>
+          </div>
+            <div class="row" style="padding:20px">
+             <div class="alert alert-warning alert-dismissible fade in" role="alert" id="tipDiv">
+                <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <p id="tipTxt" style="width:100%;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>简介</h4> 
+          <p>输入微视频的打开地址，点击解析即可获取视频真实的下载地址。</p>
+          <h4>捐赠</h4>
+          <image src="/static/img/zhifubao.png"></image>
+        </div>
+    <!-- </div> -->
+ <!--    <div class="container">
+      <div class="row"> -->
+          <div class="col-xs-6">
+             <h4>支持情况</h4> 
+              <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th>网站</th>
+                  <th>是否支持</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>美拍</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>秒拍</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>微录客</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>唱吧</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>喜马拉雅FM</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>荔枝FM</th>
+                  <td>支持</td>
+                </tr>
+                <tr>
+                  <th>蜻蜓FM</th>
+                  <td>即将支持</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <!-- 模态框（Modal） -->
+ <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+      <p style="text-align:center;padding-top:10px">Copyright ©2016 loster</p>
+    </div>
+  </nav>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $("#tipDiv").hide();
+  $('#searchBtn').click(function(e){
+      var url = $('#searchTxt').val();
+      if(!url){
+        // alert("url不能为空!");
+        showTip(0,"url不能为空!");
+      }else{
+        getDownloadUrl(url);
+      }
+      
+    });
+  $('.close').click(function()
+    {
+      $("#tipDiv").hide();
+    });
+  function getDownloadUrl(url)
+  {
+      $.ajax({
+        type:"POST",
+        url:"/url",
+        dataType:"json",
+        data:{
+          "url":url
+        },
+        success:function(result){
+          console.log(result);
+          if(result.code == 1){
+            showTip(1,result.url);
+            
+          }else{
+           showTip(0,"链接有问题")
+          }
+        }
+      });
+  }
+
+  function showTip(status,tipTxt)
+  {
+     $("#tipDiv").hide();
+     $("#tipDiv").show();
+     if(status == 0)
+     {
+        $('#tipTxt').html(tipTxt);
+      }else{
+        var link = '<a target="_blank" href="'+tipTxt+'">'+tipTxt+'</a>';
+        $('#tipTxt').html(link);
+      }
+  }
+});
+</script>
+  </body>
+</html>
